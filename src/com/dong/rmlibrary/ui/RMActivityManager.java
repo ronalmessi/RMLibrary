@@ -1,4 +1,4 @@
-package com.dong.RMLibrary.ui;
+package com.dong.rmlibrary.ui;
 
 import java.util.Stack;
 
@@ -13,22 +13,29 @@ import android.content.Context;
  * @version 1.0
  * @created 2012-3-21
  */
-public class AppManager {
+public class RMActivityManager {
 
 	private static Stack<Activity> activityStack;
-	private static AppManager instance;
+	private static RMActivityManager instance;
 
-	private AppManager() {
+	private RMActivityManager() {
 	}
 
 	/**
 	 * 单一实例
 	 */
-	public static AppManager getAppManager() {
+	public static RMActivityManager getInstance() {
 		if (instance == null) {
-			instance = new AppManager();
+			instance = new RMActivityManager();
 		}
 		return instance;
+	}
+
+	/**
+	 * 获取当前Activity栈中元素个数
+	 */
+	public int getCount() {
+		return activityStack.size();
 	}
 
 	/**
@@ -45,6 +52,12 @@ public class AppManager {
 	 * 获取当前Activity（堆栈中最后一个压入的）
 	 */
 	public Activity currentActivity() {
+		if (activityStack == null) {
+			throw new NullPointerException("Activity stack is Null");
+		}
+		if (activityStack.isEmpty()) {
+			return null;
+		}
 		Activity activity = activityStack.lastElement();
 		return activity;
 	}
@@ -74,6 +87,19 @@ public class AppManager {
 	public void finishActivity(Class<?> cls) {
 		for (Activity activity : activityStack) {
 			if (activity.getClass().equals(cls)) {
+				finishActivity(activity);
+			}
+		}
+	}
+
+	/**
+	 * 关闭除了指定activity以外的全部activity 如果cls不存在于栈中，则栈全部清空
+	 * 
+	 * @param cls
+	 */
+	public void finishOthersActivity(Class<?> cls) {
+		for (Activity activity : activityStack) {
+			if (!(activity.getClass().equals(cls))) {
 				finishActivity(activity);
 			}
 		}
