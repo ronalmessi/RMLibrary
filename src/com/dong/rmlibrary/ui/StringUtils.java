@@ -23,7 +23,7 @@ public class StringUtils {
 	}
 
 	public static boolean isTrue(String text) {
-		if (text != null && (text.equals("true") || text.equals("1"))) {
+		if (isEmpty(text) && (text.equals("true") || text.equals("1"))) {
 			return true;
 		}
 		return false;
