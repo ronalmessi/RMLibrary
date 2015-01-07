@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.dong.rmlibrary.utils.DensityUtils;
+import com.dong.rmlibrary.utils.ResourceUtils;
+
 public class UIHelper {
 
 	/**
